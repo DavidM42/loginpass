@@ -55,10 +55,15 @@ def create_flask_smorest_blueprint(backend, oauth, handle_authorize):
     #TODO token schema maken
     # @placeBp.response(TokenSchema(many=False))
     #TODO other schemas after getting back flask code for non auth token based flows
-    def auth():
+    def auth(args):
         """ Authenticate given provider with oauth code """
         id_token = request.args.get('id_token')
-        if request.args.get('code'):
+        if args["code"]:
+            print("Requests content:")
+            print(request.args["code"])
+            print("Marshmallow args content:")
+            print(args["code"])
+            # request.args["code"] = args["code"]
             token = remote.authorize_access_token()
             if id_token:
                 token['id_token'] = id_token
@@ -74,11 +79,6 @@ def create_flask_smorest_blueprint(backend, oauth, handle_authorize):
 
     @bp.route('/login')
     def login():
-        print(RemoteApp)
-        print(dir(RemoteApp))
-
-        print(current_app)
-        print(dir(current_app))
         if "OAUTH_REDIRECT_URL" in current_app.config:
             redirect_uri = current_app.config["OAUTH_REDIRECT_URL"].replace(":provider", backend.OAUTH_NAME.lower())
             #TODO feedback if used and feedback if not found and fallback used
