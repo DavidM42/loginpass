@@ -1,5 +1,6 @@
 from ._core import register_to
 from ._flask import create_flask_blueprint
+from ._flask_smorest import create_flask_smorest_blueprint
 from ._django import create_django_urlpatterns
 from ._consts import version, homepage
 from .azure import Azure, create_azure_backend
