@@ -74,8 +74,13 @@ def create_flask_smorest_blueprint(backend, oauth, handle_authorize):
 
     @bp.route('/login')
     def login():
-        if "OAUTH_REDIRECT_URL" in RemoteApp.config:
-            redirect_uri = RemoteApp.config["OAUTH_REDIRECT_URL"].replace(":provider", backend.OAUTH_NAME.lower())
+        print(RemoteApp)
+        print(dir(RemoteApp))
+
+        print(current_app)
+        print(dir(current_app))
+        if "OAUTH_REDIRECT_URL" in current_app.config:
+            redirect_uri = current_app.config["OAUTH_REDIRECT_URL"].replace(":provider", backend.OAUTH_NAME.lower())
             #TODO feedback if used and feedback if not found and fallback used
         else:
             redirect_uri = url_for('.auth', _external=True)
